@@ -15,7 +15,6 @@
         height: 100%;
         background: #1a1e2ff0;
         color: rgba(240, 255, 255, 0.726);
-        overflow: hidden;
       }
 
       .container {
@@ -89,156 +88,157 @@
         color: red;
         font-size: 20px;
       }
-      a {
-        text-align: right;
-        color: white;
-      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1 class="rectangle" id="city-heading">Seattle</h1>
-          <form class="search-form">
-            <div class="search-input">
-              <input
-                type="text"
-                id="city-input"
-                placeholder="Enter a City"
-                onkeypress="if(event.key === 'Enter') getWeather()"
-              />
-              <button
-                type="button"
-                class="btn btn-custom"
-                onclick="getWeather()"
-              >
-                Search
-              </button>
-            </div>
-          </form>
-          <p id="searched-city"></p>
-          <h3>
-            <p id="current-day-time"></p>
-            <p>Temperature: <span id="temperature" class="red-text"></span></p>
-          </h3>
-          <div class="row">
-            <div class="col">
-              <div class="square-container">
-                <strong>Tuesday</strong>
-                <p class="temperature">60°F</p>
-                <p class="temperature">54°F</p>
+    <div id="page-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class="rectangle" id="city-heading">Seattle</h1>
+            <form class="search-form">
+              <div class="search-input">
+                <input
+                  type="text"
+                  id="city-input"
+                  placeholder="Enter a City"
+                  onkeypress="if(event.key === 'Enter') getWeather()"
+                />
+                <button
+                  type="button"
+                  class="btn btn-custom"
+                  onclick="getWeather()"
+                >
+                  Search
+                </button>
               </div>
-            </div>
-            <div class="col">
-              <div class="square-container">
-                <strong>Wednesday</strong>
-                <p class="temperature">42°F</p>
-                <p class="temperature">33°F</p>
+            </form>
+            <p id="searched-city"></p>
+            <h3>
+              <p id="current-day-time"></p>
+              <p>
+                Temperature: <span id="temperature" class="red-text"></span>
+              </p>
+            </h3>
+            <div class="row">
+              <div class="col">
+                <div class="square-container">
+                  <strong>Tuesday</strong>
+                  <p class="temperature">60°F</p>
+                  <p class="temperature">54°F</p>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="square-container">
-                <strong>Thursday</strong>
-                <p class="temperature">55°F</p>
-                <p class="temperature">47°F</p>
+              <div class="col">
+                <div class="square-container">
+                  <strong>Wednesday</strong>
+                  <p class="temperature">42°F</p>
+                  <p class="temperature">33°F</p>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="square-container">
-                <strong>Friday</strong>
-                <p class="temperature">53°F</p>
-                <p class="temperature">36°F</p>
+              <div class="col">
+                <div class="square-container">
+                  <strong>Thursday</strong>
+                  <p class="temperature">55°F</p>
+                  <p class="temperature">47°F</p>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="square-container">
-                <strong>Saturday</strong>
-                <p class="temperature">70°F</p>
-                <p class="temperature">67°F</p>
+              <div class="col">
+                <div class="square-container">
+                  <strong>Friday</strong>
+                  <p class="temperature">53°F</p>
+                  <p class="temperature">36°F</p>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="square-container">
-                <strong>Sunday</strong>
-                <p class="temperature">83°F</p>
-                <p class="temperature">76°F</p>
+              <div class="col">
+                <div class="square-container">
+                  <strong>Saturday</strong>
+                  <p class="temperature">70°F</p>
+                  <p class="temperature">67°F</p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="square-container">
+                  <strong>Sunday</strong>
+                  <p class="temperature">83°F</p>
+                  <p class="temperature">76°F</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <script>
-      const currentDayTimeElement = document.getElementById("current-day-time");
-      const temperatureElement = document.getElementById("temperature");
-      const currentDate = new Date();
-      const daysOfWeek = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      const dayOfWeek = daysOfWeek[currentDate.getDay()];
-      const hours = currentDate.getHours();
-      const minutes = currentDate.getMinutes();
-      const amOrPm = hours >= 12 ? "pm" : "am";
-      const hours12 = hours % 12 || 12;
-      const formattedTime = `${hours12}:${
-        minutes < 10 ? "0" + minutes : minutes
-      }${amOrPm}`;
-      let currentWeatherDescription = "Partly cloudy with a chance of rain";
+      <script>
+        const currentDayTimeElement =
+          document.getElementById("current-day-time");
+        const temperatureElement = document.getElementById("temperature");
+        const currentDate = new Date();
+        const daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        const dayOfWeek = daysOfWeek[currentDate.getDay()];
+        const hours = currentDate.getHours();
+        const minutes = currentDate.getMinutes();
+        const amOrPm = hours >= 12 ? "pm" : "am";
+        const hours12 = hours % 12 || 12;
+        const formattedTime = `${hours12}:${
+          minutes < 10 ? "0" + minutes : minutes
+        }${amOrPm}`;
+        let currentWeatherDescription = "Partly cloudy with a chance of rain";
 
-      const currentForecast = `Current Weather:`;
+        const currentForecast = `Current Weather:`;
 
-      currentDayTimeElement.textContent = currentForecast;
+        currentDayTimeElement.textContent = currentForecast;
 
-      const searchForm = document.querySelector(".search-form");
-      const cityInput = document.getElementById("city-input");
-      const cityHeading = document.getElementById("city-heading");
+        const searchForm = document.querySelector(".search-form");
+        const cityInput = document.getElementById("city-input");
+        const cityHeading = document.getElementById("city-heading");
 
-      function getWeather() {
-        let locationInput = document.getElementById("city-input");
-        let location = locationInput.value.trim();
-        location = location.charAt(0).toUpperCase() + location.slice(1);
+        function getWeather() {
+          let locationInput = document.getElementById("city-input");
+          let location = locationInput.value.trim();
+          location = location.charAt(0).toUpperCase() + location.slice(1);
 
-        let apiKey = "3528082d914ee257763d64714a895801";
-        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
+          let apiKey = "3528082d914ee257763d64714a895801";
+          let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
 
-        axios
-          .get(apiUrl)
-          .then((response) => {
-            let temperature = Math.round(response.data.main.temp);
-            currentWeatherDescription = response.data.weather[0].description;
-            let cityName = response.data.name;
-            cityName = cityName.charAt(0).toUpperCase() + cityName.slice(1);
-            cityHeading.textContent = cityName;
-            temperatureElement.textContent = `${temperature}°C`;
-            updateCurrentForecast(temperature, currentWeatherDescription);
-          })
-          .catch((error) => {
-            console.error("Error fetching weather data:", error);
-          });
-      }
-
-      function updateCurrentForecast(temperature, description) {
-        const updatedForecast = `Current Weather: ${description} ${formattedTime}`;
-        currentDayTimeElement.textContent = updatedForecast;
-      }
-
-      cityInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          getWeather();
+          axios
+            .get(apiUrl)
+            .then((response) => {
+              let temperature = Math.round(response.data.main.temp);
+              currentWeatherDescription = response.data.weather[0].description;
+              let cityName = response.data.name;
+              cityName = cityName.charAt(0).toUpperCase() + cityName.slice(1);
+              cityHeading.textContent = cityName;
+              temperatureElement.textContent = `${temperature}°C`;
+              updateCurrentForecast(temperature, currentWeatherDescription);
+            })
+            .catch((error) => {
+              console.error("Error fetching weather data:", error);
+            });
         }
-      });
-    </script>
-    <a href="https://github.com/Mumina033/weather" target="_blank"
-      >Open-source code</a
-    >
-    by Mumina Mohamed
+
+        function updateCurrentForecast(temperature, description) {
+          const updatedForecast = `Current Weather: ${description} ${formattedTime}`;
+          currentDayTimeElement.textContent = updatedForecast;
+        }
+
+        cityInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            getWeather();
+          }
+        });
+      </script>
+      <footer>
+        <a href="https://github.com/Mumina033/weather">Open-source code</a>
+        by Mumina Mohamed
+      </footer>
+    </div>
   </body>
 </html>
