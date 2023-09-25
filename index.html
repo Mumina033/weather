@@ -85,7 +85,7 @@
         text-decoration: none;
       }
       .red-text {
-        color: red;
+        color: black;
         font-size: 20px;
       }
     </style>
@@ -117,7 +117,11 @@
             <h3>
               <p id="current-day-time"></p>
               <p>
-                Temperature: <span id="temperature" class="red-text"></span>
+                Temperature: <img src="https://openweathermap.org/img/wn/10d@2x.png" 
+                alt="Weather icon"
+                class="float-left"
+                id="icon"
+                ></img><span id="temperature" class="red-text"></span>
               </p>
             </h3>
             <div class="row">
@@ -203,6 +207,8 @@
           let locationInput = document.getElementById("city-input");
           let location = locationInput.value.trim();
           location = location.charAt(0).toUpperCase() + location.slice(1);
+         
+
 
           let apiKey = "3528082d914ee257763d64714a895801";
           let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
@@ -217,6 +223,10 @@
               cityHeading.textContent = cityName;
               temperatureElement.textContent = `${temperature}°C`;
               updateCurrentForecast(temperature, currentWeatherDescription);
+              let conditionCode = response.data.weather[0].icon;
+               let icon = document.querySelector("#icon");
+ icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}@2x.png`);
+              
             })
             .catch((error) => {
               console.error("Error fetching weather data:", error);
