@@ -101,6 +101,10 @@
     .units a.active {
       color: gray;
     }
+    .temperature-week {
+      margin-top: 20px;
+      
+    }
   </style>
 </head>
 <body>
@@ -130,20 +134,22 @@
         <h3>
           <p id="current-day-time"></p>
           <p>
-            Temperature: <img src="" alt="Weather icon" class="float-left" id="icon"></img><span id="temperature" class="red-text"></span>
-            <span class="units"><a href="#" id="celsius-link" class="active">°C</a> | <a href="#" id="fahrenheit-link">°F</a></span>
-          </p>
+  <span id="current-weather-description"></span>
+  <img src="" alt="Weather icon" class="float-left" id="icon"></img>
+  <span id="temperature" class="red-text"></span>
+  <span class="units"><a href="#" id="celsius-link" class="active">°C</a> | <a href="#" id="fahrenheit-link">°F</a></span>
+</p>
         </h3>
-        <div class="row">
-          <div class="col">
-            <div class="square-container">
+        <div  class="temperature-week row">
+          <div  class="col">
+            <div  class= "square-container">
               <strong>Tuesday</strong>
               <p class="temperature">60<span class="unit-symbol">°F</span></p>
               <p class="temperature">54<span class="unit-symbol">°C</span></p>
             </div>
           </div>
-          <div class="col">
-            <div class="square-container">
+          <div  class="col">
+            <div  class="square-container">
               <strong>Wednesday</strong>
               <p class="temperature">42<span class="unit-symbol">°F</span></p>
               <p class="temperature">33<span class="unit-symbol">°C</span></p>
@@ -201,6 +207,8 @@
     let hours12 = hours % 12 || 12;
     let formattedTime = `${hours12}:${minutes < 10 ? "0" + minutes : minutes}${amOrPm}`;
     let updatedForecast = `Current Weather: ${description} ${formattedTime}`;
+    document.getElementById("current-weather-description").textContent = updatedForecast;
+
     currentDayTimeElement.textContent = updatedForecast;
   }
 
