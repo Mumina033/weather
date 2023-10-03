@@ -152,76 +152,9 @@
   <span class="units"><a href="#" id="celsius-link" class="active">°C</a> | <a href="#" id="fahrenheit-link">°F</a></span>
 </p>
         </h3>
-        <div  class="temperature-week row">
-
-          <div  class="col">
-            <div  class= "square-container">
-              <strong>Tuesday</strong>
-         <div class="temperature-max">
-      <p class="temperature">60<span class="unit-symbol">°F</span></p>
-    </div>
-    <div class="temperature-min">
-              <p class="temperature">54<span class="unit-symbol">°C</span></p></div>
-            </div>
-          </div>
-
-          <div  class="col">
-            <div  class="square-container">
-              <strong>Wednesday</strong>
-              <div class="temperature-max">
-              <p class="temperature">42<span class="unit-symbol">°F</span></p></div>
-              <div class="temperature-min">
-              <p class="temperature">33<span class="unit-symbol">°C</span></p></div>
-            </div>
-
-          </div>
-
-          <div class="col">
-            <div class="square-container">
-              <strong>Thursday</strong>
-              <div class="temperature-max">
-              <p class="temperature">55<span class="unit-symbol">°F</span></p></div>
-              <div class="temperature-min">
-              <p class="temperature">47<span class="unit-symbol">°C</span></p></div>
-            </div>
-
-          </div>
-
-          <div class="col">
-            <div class="square-container">
-              <strong>Friday</strong>
-              <div class="temperature-max">
-              <p class="temperature">53<span class="unit-symbol">°F</span></p></div>
-              <div class="temperature-min">
-              <p class="temperature">36<span class="unit-symbol">°C</span></p></div>
-            </div>
-
-          </div>
-
-          <div class="col">
-            <div class="square-container">
-              <strong>Saturday</strong>
-              <div class="temperature-max">
-              <p class="temperature">70<span class="unit-symbol">°F</span></p></div>
-              <div class="temperature-min">
-              <p class="temperature">67<span class="unit-symbol">°C</span></p></div>
-            </div>
-
-          </div>
-
-          <div class="col">
-            <div class="square-container">
-              <strong>Sunday</strong>
-              <div class="temperature-max">
-              <p class="temperature">83<span class="unit-symbol">°F</span></p></div>
-              <div class="temperature-min">
-              <p class="temperature">76<span class="unit-symbol">°C</span></p></div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+        <div  class="temperature-week row" id="week-forecast">
+       </div>
+       </div>  
   </div>
 </div>
 <script>
@@ -247,6 +180,30 @@
 
     currentDayTimeElement.textContent = updatedForecast;
   }
+
+  function displayWeekForecast() {
+let weekForecastElement = document.querySelector("#week-forecast");
+let weekforecastHTML =`<div class="row">`;
+  let days = ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"];
+  days.forEach(function(day) {
+    
+    weekforecastHTML = weekforecastHTML + `<div  class="col">
+            <div  class= "square-container">
+              <strong>${day}</strong>
+         <div class="temperature-max">
+      <p class="temperature">60<span class="unit-symbol">°F</span></p>
+    </div>
+    <div class="temperature-min">
+              <p class="temperature">54<span class="unit-symbol">°C</span></p></div>
+            </div>
+          </div>`;
+
+
+  })
+          weekforecastHTML = weekforecastHTML + `</div>`;
+weekForecastElement.innerHTML = weekforecastHTML;
+          
+}
 
   function displayWeatherForDefaultLocation() {
     let apiKey = "3528082d914ee257763d64714a895801";
@@ -309,6 +266,8 @@
     fahrenheitLink.classList.remove("active");
   });
 
+ 
+
   fahrenheitLink.addEventListener("click", function(event) {
     event.preventDefault();
     let celsiusTemperature = parseInt(temperatureElement.textContent);
@@ -324,7 +283,7 @@
       getWeather();
     }
   });
-
+ displayWeekForecast();
   displayWeatherForDefaultLocation();
 </script>
 <footer>
