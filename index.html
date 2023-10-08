@@ -181,6 +181,11 @@
     currentDayTimeElement.textContent = updatedForecast;
   }
 
+
+
+
+
+
   function displayWeekForecast() {
 let weekForecastElement = document.querySelector("#week-forecast");
 let weekforecastHTML =`<div class="row">`;
@@ -205,6 +210,12 @@ weekForecastElement.innerHTML = weekforecastHTML;
           
 }
 
+function getweekForecast(coordinates) {
+console.log (coordinates);
+
+}
+
+
   function displayWeatherForDefaultLocation() {
     let apiKey = "3528082d914ee257763d64714a895801";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=metric&appid=${apiKey}`;
@@ -226,6 +237,12 @@ weekForecastElement.innerHTML = weekforecastHTML;
       .catch((error) => {
         console.error("Error fetching default weather data:", error);
       });
+
+
+getweekForecast(response.data.coord);
+
+
+
   }
 
   function getWeather() {
