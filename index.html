@@ -176,7 +176,7 @@
     let amOrPm = hours >= 12 ? "pm" : "am";
     let hours12 = hours % 12 || 12;
     let formattedTime = `${hours12}:${minutes < 10 ? "0" + minutes : minutes}${amOrPm}`;
-    let updatedForecast = `Current Forecast: ${formattedTime} ${description} `;
+    let updatedForecast = `Current Weather: ${formattedTime} ${description} `;
     document.getElementById("current-weather-description").textContent =``;
 
     currentDayTimeElement.textContent = updatedForecast;
