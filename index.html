@@ -145,7 +145,7 @@
         </form>
         <p id="searched-city"></p>
         <h3>
-          <p id="current-day-time"></p>
+           <p id="current-day-time"></p>
           <p>
             <span id="current-weather-description"></span>
             <img src="" alt="Weather icon" class="float-left" id="icon"></img>
@@ -162,7 +162,6 @@
 <script>
   let currentDayTimeElement = document.getElementById("current-day-time");
   let temperatureElement = document.getElementById("temperature");
-  let currentWeatherDescription = "Partly cloudy with a chance of rain";
   let defaultLocation = "Seattle";
   let searchForm = document.querySelector(".search-form");
   let cityInput = document.getElementById("city-input");
@@ -177,65 +176,48 @@
     let amOrPm = hours >= 12 ? "pm" : "am";
     let hours12 = hours % 12 || 12;
     let formattedTime = `${hours12}:${minutes < 10 ? "0" + minutes : minutes}${amOrPm}`;
-    let updatedForecast = `Current Weather: ${description} ${formattedTime}`;
+    let updatedForecast = `Current Forecast: ${formattedTime} ${description} `;
     document.getElementById("current-weather-description").textContent = updatedForecast;
 
     currentDayTimeElement.textContent = updatedForecast;
   }
 
+  function formatDay(timestamp) {
+    let date = new Date(timestamp * 1000);
+    let day = date.getDay();
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return days[day];
+  }
+
   function displayWeekForecast(response) {
-    console.log(response.data);
+    let forecasted = response.data.daily.slice(0, 6);
     let weekForecastElement = document.querySelector("#week-forecast");
     let weekforecastHTML = `<div class="row">`;
-    let days = ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"];
-    days.forEach(function (day) {
-      weekforecastHTML = weekforecastHTML + `<div  class="col">
-            <div  class= "square-container">
-              <strong>${day}</strong>
-         <div class="temperature-max">
-      <p class="temperature">60<span class="unit-symbol">°F</span></p>
-    </div>
-    <div class="temperature-min">
-              <p class="temperature">54<span class="unit-symbol">°C</span></p></div>
+    forecasted.forEach(function (forecastedDay) {
+      weekforecastHTML = weekforecastHTML + `<div class="col-2">
+            <div class="square-container">
+              <strong>${formatDay(forecastedDay.dt)}</strong>
+              <div class="temperature-max">
+                <p class="temperature">${Math.round(forecastedDay.temp.max)}<span class="unit-symbol">°F</span></p>
+              </div>
+              <div class="temperature-min">
+                <p class="temperature">${Math.round(forecastedDay.temp.min)}<span class="unit-symbol">°C</span></p>
+              </div>
             </div>
           </div>`;
-    })
+    });
     weekforecastHTML = weekforecastHTML + `</div>`;
     weekForecastElement.innerHTML = weekforecastHTML;
   }
 
-  function getweeksTemps(coordinates) {
-  let apiKey = "96ad27349a64ea1dcdfbe6f4d458c085";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  function updateWeeklyTemperatures(coordinates) {
+    let apiKey = "96ad27349a64ea1dcdfbe6f4d458c085";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
 
-  axios.get(apiUrl).then(displayWeekForecast);
-}
-     
-
- function displayWeatherForDefaultLocation() {
-  let apiKey = "3528082d914ee257763d64714a895801";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=metric&appid=${apiKey}`;
-
-  axios
-    .get(apiUrl)
-    .then((response) => {
-      let celsiusTemperature = response.data.main.temp;
-      currentWeatherDescription = response.data.weather[0].description;
-      let cityName = response.data.name;
-      cityHeading.textContent = cityName;
-      temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
-      updateCurrentForecast(Math.round(celsiusTemperature), currentWeatherDescription);
-      let conditionCode = response.data.weather[0].icon;
-      let icon = document.querySelector("#icon");
-      icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
-
-      
-      getweeksTemps(response.data.coord);
-    })
-    .catch((error) => {
-      console.error("Error fetching default weather data:", error);
+    axios.get(apiUrl).then((response) => {
+      displayWeekForecast(response);
     });
-}
+  }
 
   function getWeather() {
     let locationInput = document.getElementById("city-input");
@@ -256,8 +238,8 @@
         let conditionCode = response.data.weather[0].icon;
         let icon = document.querySelector("#icon");
         icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
-              displayWeekTemps(response.data.coord);
 
+        updateWeeklyTemperatures(response.data.coord);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -292,11 +274,34 @@
     }
   });
 
+  function displayWeatherForDefaultLocation() {
+    let apiKey = "3528082d914ee257763d64714a895801";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=metric&appid=${apiKey}`;
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        let celsiusTemperature = response.data.main.temp;
+        currentWeatherDescription = response.data.weather[0].description;
+        let cityName = response.data.name;
+        cityHeading.textContent = cityName;
+        temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
+        updateCurrentForecast(Math.round(celsiusTemperature), currentWeatherDescription);
+        let conditionCode = response.data.weather[0].icon;
+        let icon = document.querySelector("#icon");
+        icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
+
+        updateWeeklyTemperatures(response.data.coord);
+      })
+      .catch((error) => {
+        console.error("Error fetching default weather data:", error);
+      });
+  }
+
   displayWeatherForDefaultLocation();
 </script>
 <footer>
-  <a href="https://github.com/Mumina033/weather">Open-source code</a>
-  by Mumina Mohamed
+  <a href="https://github.com/Mumina033/weather">Open-source code</a> by Mumina Mohamed
 </footer>
 </body>
 </html>
