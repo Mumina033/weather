@@ -150,7 +150,7 @@
             <span id="current-weather-description"></span>
             <img src="" alt="Weather icon" class="float-left" id="icon"></img>
             <span id="temperature" class="red-text"></span>
-            <span class="units"><a href="#" id="celsius-link" class="active">°C</a> | <a href="#" id="fahrenheit-link">°F</a></span>
+            <span class="units"><a href="#" id="fahrenheit-link" class="active">°F</a> | <a href="#" id="celsius-link">°C</a></span>
           </p>
         </h3>
         <div class="temperature-week row" id="week-forecast">
@@ -177,7 +177,7 @@
     let hours12 = hours % 12 || 12;
     let formattedTime = `${hours12}:${minutes < 10 ? "0" + minutes : minutes}${amOrPm}`;
     let updatedForecast = `Current Forecast: ${formattedTime} ${description} `;
-    document.getElementById("current-weather-description").textContent = ``;
+    document.getElementById("current-weather-description").textContent =``;
 
     currentDayTimeElement.textContent = updatedForecast;
   }
@@ -212,7 +212,7 @@
 
   function updateWeeklyTemperatures(coordinates) {
     let apiKey = "96ad27349a64ea1dcdfbe6f4d458c085";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=imperial`;
 
     axios.get(apiUrl).then((response) => {
       displayWeekForecast(response);
@@ -224,17 +224,17 @@
     let location = locationInput.value.trim();
     location = location.charAt(0).toUpperCase() + location.slice(1);
     let apiKey = "3528082d914ee257763d64714a895801";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
 
     axios
       .get(apiUrl)
       .then((response) => {
-        let celsiusTemperature = response.data.main.temp;
+        let fahrenheitTemperature = response.data.main.temp;
         currentWeatherDescription = response.data.weather[0].description;
         let cityName = response.data.name;
         cityHeading.textContent = cityName;
-        temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
-        updateCurrentForecast(Math.round(celsiusTemperature), currentWeatherDescription);
+        temperatureElement.textContent = `${Math.round(fahrenheitTemperature)}`;
+        updateCurrentForecast(Math.round(fahrenheitTemperature), currentWeatherDescription);
         let conditionCode = response.data.weather[0].icon;
         let icon = document.querySelector("#icon");
         icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
@@ -246,26 +246,28 @@
       });
   }
 
-  let celsiusLink = document.querySelector("#celsius-link");
-  let fahrenheitLink = document.querySelector("#fahrenheit-link");
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+let celsiusLink = document.querySelector("#celsius-link");
+  
 
   celsiusLink.addEventListener("click", function (event) {
     event.preventDefault();
     let fahrenheitTemperature = parseInt(temperatureElement.textContent);
-    let celsiusTemperature = ((fahrenheitTemperature - 32) * 5) / 9;
+    let celsiusTemperature = (fahrenheitTemperature - 32) * 5 / 9;
     temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
-    celsiusLink.classList.add("active");
-    fahrenheitLink.classList.remove("active");
+   celsiusLink.classList.add("active");
+     fahrenheitLink.classList.remove("active");
   });
 
-  fahrenheitLink.addEventListener("click", function (event) {
+ fahrenheitLink.addEventListener("click", function (event) {
     event.preventDefault();
     let celsiusTemperature = parseInt(temperatureElement.textContent);
-    let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+    let fahrenheitTemperature = ((celsiusTemperature * 9) / 5 + 32);
     temperatureElement.textContent = `${Math.round(fahrenheitTemperature)}`;
     fahrenheitLink.classList.add("active");
     celsiusLink.classList.remove("active");
   });
+
 
   cityInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -276,7 +278,7 @@
 
   function displayWeatherForDefaultLocation() {
     let apiKey = "3528082d914ee257763d64714a895801";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=metric&appid=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=imperial&appid=${apiKey}`;
 
     axios
       .get(apiUrl)
