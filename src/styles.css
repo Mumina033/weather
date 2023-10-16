@@ -1,0 +1,112 @@
+body,
+html {
+  height: 100%;
+  background: #1a1e2ff0;
+  color: rgba(240, 255, 255, 0.726);
+}
+
+.container {
+  height: 100vh;
+}
+
+h1.rectangle {
+  display: block;
+  padding: 1px 98px;
+  margin-bottom: 35px;
+  margin-top: 140px;
+  border: 4px solid #8f8f8f0a;
+  font-size: 45px;
+  color: white;
+}
+
+h2.border {
+  display: block;
+  padding: 15px 68px;
+  border: 2px solid #8f8f8f0a;
+  font-size: 16.7px;
+  text-align: left;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.square-container {
+  width: 150px;
+  height: 268px;
+  border: 8px solid #bcc0c007;
+  padding: 5px;
+  overflow: auto;
+  font-size: 20px;
+}
+
+.unit-symbol {
+  font-size: 30px;
+  vertical-align: super;
+  margin-left: 4px;
+}
+
+.temperature {
+  font-size: 50px;
+  line-height: 1.8;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  margin-right: 1px;
+  display: inline-flex;
+  height: 45px;
+  margin-bottom: 40px;
+  position: fixed;
+  top: 0px;
+  right: 125px;
+  padding-top: 10px;
+}
+
+.btn-custom {
+  background-color: #272c2ee7;
+  color: #f5efef;
+  height: 38px;
+  width: 115px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  margin-top: 9px;
+  position: fixed;
+  top: 0;
+  right: 4px;
+  padding-top: 4px 8px;
+}
+
+.units a {
+  text-decoration: none;
+}
+
+.red-text {
+  color: white;
+  font-size: 23px;
+}
+
+.units a.active {
+  color: white;
+}
+
+.temperature-week {
+  text-align: center;
+  color: white;
+}
+
+.temperature-max {
+  color: white;
+  text-align: center;
+}
+
+.temperature-min {
+  color: darkgray;
+  text-align: center;
+}
