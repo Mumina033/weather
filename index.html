@@ -1,310 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
-  <style>
-    body, html {
-      height: 100%;
-      background: #1a1e2ff0;
-      color: rgba(240, 255, 255, 0.726);
-    }
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        background: #1a1e2ff0;
+        color: rgba(240, 255, 255, 0.726);
+      }
 
-    .container {
-      height: 100vh;
-    }
+      .container {
+        height: 100vh;
+      }
 
-    h1.rectangle {
-      display: block;
-      padding: 1px 98px;
-      margin-bottom: 35px;
-      margin-top: 140px;
-      border: 4px solid #8f8f8f0a;
-      font-size: 45px;
-      color: white;
-    }
+      h1.rectangle {
+        display: block;
+        padding: 1px 98px;
+        margin-bottom: 35px;
+        margin-top: 140px;
+        border: 4px solid #8f8f8f0a;
+        font-size: 45px;
+        color: white;
+      }
 
-    h2.border {
-      display: block;
-      padding: 15px 68px;
-      border: 2px solid #8f8f8f0a;
-      font-size: 16.7px;
-      text-align: left;
-   
-    }
+      h2.border {
+        display: block;
+        padding: 15px 68px;
+        border: 2px solid #8f8f8f0a;
+        font-size: 16.7px;
+        text-align: left;
+      }
 
-    h3 {
-      font-size: 18px;
-      margin-bottom: 40px;
-      color: white;
-    }
+      h3 {
+        font-size: 18px;
+        margin-bottom: 40px;
+        color: white;
+      }
 
-    .square-container {
-      width: 150px;
-      height: 268px;
-      border: 8px solid #bcc0c007;
-      padding: 5px;
-      overflow: auto;
-      font-size: 20px;
-    }
+      .square-container {
+        width: 150px;
+        height: 268px;
+        border: 8px solid #bcc0c007;
+        padding: 5px;
+        overflow: auto;
+        font-size: 20px;
+      }
 
-    .unit-symbol {
-      font-size: 30px;
-      vertical-align: super;
-      margin-left: 4px;
-    }
+      .unit-symbol {
+        font-size: 30px;
+        vertical-align: super;
+        margin-left: 4px;
+      }
 
-    .temperature {
-      font-size: 50px;
-      line-height: 1.8;
-    }
+      .temperature {
+        font-size: 50px;
+        line-height: 1.8;
+      }
 
-    .search-form {
-      display: flex;
-      align-items: center;
-    }
+      .search-form {
+        display: flex;
+        align-items: center;
+      }
 
-    .search-input {
-      margin-right: 1px;
-      display: inline-flex;
-      height: 45px;
-      margin-bottom: 40px;
-      position: fixed;
-      top: 0px;
-      right: 125px;
-      padding-top: 10px;
-    }
+      .search-input {
+        margin-right: 1px;
+        display: inline-flex;
+        height: 45px;
+        margin-bottom: 40px;
+        position: fixed;
+        top: 0px;
+        right: 125px;
+        padding-top: 10px;
+      }
 
-    .btn-custom {
-      background-color: #272c2ee7;
-      color: #f5efef;
-      height: 38px;
-      width: 115px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      margin-top: 9px;
-      position: fixed;
-      top: 0;
-      right: 4px;
-      padding-top: 4px 8px;
-    }
+      .btn-custom {
+        background-color: #272c2ee7;
+        color: #f5efef;
+        height: 38px;
+        width: 115px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        margin-top: 9px;
+        position: fixed;
+        top: 0;
+        right: 4px;
+        padding-top: 4px 8px;
+      }
 
-    .units a {
-      text-decoration: none;
-    }
+      .units a {
+        text-decoration: none;
+      }
 
-    .red-text {
-      color: white;
-      font-size: 23px;
-    }
+      .red-text {
+        color: white;
+        font-size: 23px;
+      }
 
-    .units a.active {
-      color: white;
-    }
+      .units a.active {
+        color: white;
+      }
 
-    .temperature-week {
-      text-align: center;
-      color:white;
-    }
+      .temperature-week {
+        text-align: center;
+        color: white;
+      }
 
-    .temperature-max {
-      color: white;
-      text-align: center;
-    }
+      .temperature-max {
+        color: white;
+        text-align: center;
+      }
 
-    .temperature-min {
-      color: darkgray;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-<div id="page-wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1 class="rectangle" id="city-heading">Boston</h1>
-        <form class="search-form">
-          <div class="search-input">
-            <input
-              type="text"
-              id="city-input"
-              placeholder="Enter a City"
-              onkeypress="if(event.key === 'Enter') getWeather()"
-            />
-            <button
-              type="button"
-              class="btn btn-custom"
-              onclick="getWeather()"
-            >
-              Search
-            </button>
+      .temperature-min {
+        color: darkgray;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class="rectangle" id="city-heading">Boston</h1>
+            <form class="search-form">
+              <div class="search-input">
+                <input
+                  type="text"
+                  id="city-input"
+                  placeholder="Enter a City"
+                  onkeypress="if(event.key === 'Enter') getWeather()"
+                />
+                <button
+                  type="button"
+                  class="btn btn-custom"
+                  onclick="getWeather()"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+            <p id="searched-city"></p>
+            <h3>
+              <p id="current-day-time"></p>
+              <p>
+                <span id="current-weather-description"></span>
+                <img src="" alt="Weather icon" class="float-left" id="icon" />
+                <span id="temperature" class="red-text"></span>
+                <span class="units"
+                  ><a href="#" id="fahrenheit-link" class="active">°F</a> |
+                  <a href="#" id="celsius-link">°C</a></span
+                >
+              </p>
+            </h3>
+            <div class="temperature-week row" id="week-forecast"></div>
           </div>
-        </form>
-        <p id="searched-city"></p>
-        <h3>
-           <p id="current-day-time"></p>
-          <p>
-            <span id="current-weather-description"></span>
-            <img src="" alt="Weather icon" class="float-left" id="icon"></img>
-            <span id="temperature" class="red-text"></span>
-            <span class="units"><a href="#" id="fahrenheit-link" class="active">°F</a> | <a href="#" id="celsius-link">°C</a></span>
-          </p>
-        </h3>
-        <div class="temperature-week row" id="week-forecast">
         </div>
       </div>
     </div>
-  </div>
-</div>
-<script>
-  let currentDayTimeElement = document.getElementById("current-day-time");
-  let temperatureElement = document.getElementById("temperature");
-  let defaultLocation = "Boston";
-  let searchForm = document.querySelector(".search-form");
-  let cityInput = document.getElementById("city-input");
-  let cityHeading = document.getElementById("city-heading");
+    <script>
+      let currentDayTimeElement = document.getElementById("current-day-time");
+      let temperatureElement = document.getElementById("temperature");
+      let fahrenheitTemperature = null;
+      let celsiusTemperature = null;
+      let defaultLocation = "Boston";
+      let searchForm = document.querySelector(".search-form");
+      let cityInput = document.getElementById("city-input");
+      let cityHeading = document.getElementById("city-heading");
 
-  function updateCurrentForecast(temperature, description) {
-    let currentDate = new Date();
-    let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let dayOfWeek = daysOfWeek[currentDate.getDay()];
-    let hours = currentDate.getHours();
-    let minutes = currentDate.getMinutes();
-    let amOrPm = hours >= 12 ? "pm" : "am";
-    let hours12 = hours % 12 || 12;
-    let formattedTime = `${hours12}:${minutes < 10 ? "0" + minutes : minutes}${amOrPm}`;
-    let updatedForecast = `Current Weather: ${formattedTime} ${description} `;
-    document.getElementById("current-weather-description").textContent =``;
+      function updateCurrentForecast(temperature, description) {
+        let currentDate = new Date();
+        let daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        let dayOfWeek = daysOfWeek[currentDate.getDay()];
+        let hours = currentDate.getHours();
+        let minutes = currentDate.getMinutes();
+        let amOrPm = hours >= 12 ? "pm" : "am";
+        let hours12 = hours % 12 || 12;
+        let formattedTime = `${hours12}:${
+          minutes < 10 ? "0" + minutes : minutes
+        }${amOrPm}`;
+        let updatedForecast = `Current Weather: ${formattedTime} ${description} `;
+        document.getElementById("current-weather-description").textContent = ``;
+        currentDayTimeElement.textContent = updatedForecast;
+      }
 
-    currentDayTimeElement.textContent = updatedForecast;
-  }
+      function formatDay(timestamp) {
+        let date = new Date(timestamp * 1000);
+        let day = date.getDay();
+        let days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        return days[day];
+      }
 
-  function formatDay(timestamp) {
-    let date = new Date(timestamp * 1000);
-    let day = date.getDay();
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return days[day];
-  }
-
-  function displayWeekForecast(response) {
-    let forecasted = response.data.daily.slice(0, 6);
-    let weekForecastElement = document.querySelector("#week-forecast");
-    let weekforecastHTML = `<div class="row">`;
-    forecasted.forEach(function (forecastedDay) {
-      weekforecastHTML = weekforecastHTML + `<div class="col-2">
-            <div class="square-container">
-              <strong>${formatDay(forecastedDay.dt)}</strong>
-              <div class="temperature-max">
-                <p class="temperature">${Math.round(forecastedDay.temp.max)}<span class="unit-symbol">°F</span></p>
-              </div>
-              <div class="temperature-min">
-                <p class="temperature">${Math.round(forecastedDay.temp.min)}<span class="unit-symbol">°C</span></p>
-              </div>
+      function displayWeekForecast(response) {
+        let forecasted = response.data.daily.slice(0, 6);
+        let weekForecastElement = document.querySelector("#week-forecast");
+        let weekforecastHTML = `<div class="row">`;
+        forecasted.forEach(function (forecastedDay) {
+          weekforecastHTML =
+            weekforecastHTML +
+            `<div class="col-2">
+          <div class="square-container">
+            <strong>${formatDay(forecastedDay.dt)}</strong>
+            <div class="temperature-max">
+              <p class="temperature">${Math.round(
+                forecastedDay.temp.max
+              )}<span class="unit-symbol">°F</span></p>
             </div>
-          </div>`;
-    });
-    weekforecastHTML = weekforecastHTML + `</div>`;
-    weekForecastElement.innerHTML = weekforecastHTML;
-  }
+            <div class="temperature-min">
+              <p class="temperature">${Math.round(
+                forecastedDay.temp.min
+              )}<span class="unit-symbol">°C</span></p>
+            </div>
+          </div>
+        </div>`;
+        });
+        weekforecastHTML = weekforecastHTML + `</div>`;
+        weekForecastElement.innerHTML = weekforecastHTML;
+      }
 
-  function updateWeeklyTemperatures(coordinates) {
-    let apiKey = "96ad27349a64ea1dcdfbe6f4d458c085";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=imperial`;
+      function updateWeeklyTemperatures(coordinates) {
+        let apiKey = "96ad27349a64ea1dcdfbe6f4d458c085";
+        let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=imperial`;
 
-    axios.get(apiUrl).then((response) => {
-      displayWeekForecast(response);
-    });
-  }
+        axios.get(apiUrl).then((response) => {
+          displayWeekForecast(response);
+        });
+      }
 
-  function getWeather() {
-    let locationInput = document.getElementById("city-input");
-    let location = locationInput.value.trim();
-    location = location.charAt(0).toUpperCase() + location.slice(1);
-    let apiKey = "3528082d914ee257763d64714a895801";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
+      function getWeather() {
+        let locationInput = document.getElementById("city-input");
+        let location = locationInput.value.trim();
+        location = location.charAt(0).toUpperCase() + location.slice(1);
+        let apiKey = "3528082d914ee257763d64714a895801";
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
 
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        let fahrenheitTemperature = response.data.main.temp;
-        currentWeatherDescription = response.data.weather[0].description;
-        let cityName = response.data.name;
-        cityHeading.textContent = cityName;
-        temperatureElement.textContent = `${Math.round(fahrenheitTemperature)}`;
-        updateCurrentForecast(Math.round(fahrenheitTemperature), currentWeatherDescription);
-        let conditionCode = response.data.weather[0].icon;
-        let icon = document.querySelector("#icon");
-        icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
+        axios
+          .get(apiUrl)
+          .then((response) => {
+            fahrenheitTemperature = response.data.main.temp;
+            celsiusTemperature = ((fahrenheitTemperature - 32) * 5) / 9;
+            currentWeatherDescription = response.data.weather[0].description;
+            let cityName = response.data.name;
+            cityHeading.textContent = cityName;
+            temperatureElement.textContent = `${Math.round(
+              fahrenheitTemperature
+            )}`;
+            updateCurrentForecast(
+              Math.round(fahrenheitTemperature),
+              currentWeatherDescription
+            );
+            let conditionCode = response.data.weather[0].icon;
+            let icon = document.querySelector("#icon");
+            icon.setAttribute(
+              "src",
+              `https://openweathermap.org/img/wn/${conditionCode}.png`
+            );
+            updateWeeklyTemperatures(response.data.coord);
+          })
+          .catch((error) => {
+            console.error("Error fetching weather data:", error);
+          });
+      }
 
-        updateWeeklyTemperatures(response.data.coord);
-      })
-      .catch((error) => {
-        console.error("Error fetching weather data:", error);
+      let fahrenheitLink = document.querySelector("#fahrenheit-link");
+      let celsiusLink = document.querySelector("#celsius-link");
+
+      fahrenheitLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        fahrenheitLink.classList.add("active");
+        celsiusLink.classList.remove("active");
+        temperatureElement.textContent = Math.round(fahrenheitTemperature);
       });
-  }
 
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-let celsiusLink = document.querySelector("#celsius-link");
-  
-
-  celsiusLink.addEventListener("click", function (event) {
-    event.preventDefault();
-    let fahrenheitTemperature = parseInt(temperatureElement.textContent);
-    let celsiusTemperature = (fahrenheitTemperature - 32) * 5 / 9;
-    temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
-   celsiusLink.classList.add("active");
-     fahrenheitLink.classList.remove("active");
-  });
-
- fahrenheitLink.addEventListener("click", function (event) {
-    event.preventDefault();
-    let celsiusTemperature = parseInt(temperatureElement.textContent);
-    let fahrenheitTemperature = ((celsiusTemperature * 9) / 5 + 32);
-    temperatureElement.textContent = `${Math.round(fahrenheitTemperature)}`;
-    fahrenheitLink.classList.add("active");
-    celsiusLink.classList.remove("active");
-  });
-
-
-  cityInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      getWeather();
-    }
-  });
-
-  function displayWeatherForDefaultLocation() {
-    let apiKey = "3528082d914ee257763d64714a895801";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=imperial&appid=${apiKey}`;
-
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        let celsiusTemperature = response.data.main.temp;
-        currentWeatherDescription = response.data.weather[0].description;
-        let cityName = response.data.name;
-        cityHeading.textContent = cityName;
-        temperatureElement.textContent = `${Math.round(celsiusTemperature)}`;
-        updateCurrentForecast(Math.round(celsiusTemperature), currentWeatherDescription);
-        let conditionCode = response.data.weather[0].icon;
-        let icon = document.querySelector("#icon");
-        icon.setAttribute("src", `https://openweathermap.org/img/wn/${conditionCode}.png`);
-
-        updateWeeklyTemperatures(response.data.coord);
-      })
-      .catch((error) => {
-        console.error("Error fetching default weather data:", error);
+      celsiusLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        celsiusLink.classList.add("active");
+        fahrenheitLink.classList.remove("active");
+        temperatureElement.textContent = Math.round(celsiusTemperature);
       });
-  }
 
-  displayWeatherForDefaultLocation();
-</script>
-<footer>
-  <a href="https://github.com/Mumina033/weather" target="_blank">Open-source code</a> by Mumina Mohamed
-</footer>
-</body>
+      cityInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          getWeather();
+        }
+      });
+
+      function displayWeatherForDefaultLocation() {
+        let apiKey = "3528082d914ee257763d64714a895801";
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=imperial&appid=${apiKey}`;
+
+        axios
+          .get(apiUrl)
+          .then((response) => {
+            fahrenheitTemperature = response.data.main.temp;
+            celsiusTemperature = ((fahrenheitTemperature - 32) * 5) / 9;
+            currentWeatherDescription = response.data.weather[0].description;
+            let cityName = response.data.name;
+            cityHeading.textContent = cityName;
+            temperatureElement.textContent = `${Math.round(
+              fahrenheitTemperature
+            )}`;
+            updateCurrentForecast(
+              Math.round(fahrenheitTemperature),
+              currentWeatherDescription
+            );
+            let conditionCode = response.data.weather[0].icon;
+            let icon = document.querySelector("#icon");
+            icon.setAttribute(
+              "src",
+              `https://openweathermap.org/img/wn/${conditionCode}.png`
+            );
+            updateWeeklyTemperatures(response.data.coord);
+          })
+          .catch((error) => {
+            console.error("Error fetching default weather data:", error);
+          });
+      }
+
+      displayWeatherForDefaultLocation();
+    </script>
+
+    <footer>
+      <a href="https://github.com/Mumina033/weather" target="_blank"
+        >Open-source code</a
+      >
+      by Mumina Mohamed
+    </footer>
+  </body>
 </html>
